@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://westminsterquickstart.com/sitemap.xml
+Sitemap: https://westminsterquickstart.com/sitemap.xml
