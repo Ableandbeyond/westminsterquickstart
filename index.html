@@ -357,6 +357,14 @@
       display: flex; justify-content: center;
       z-index: 999;
       pointer-events: none;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    .sticky-cta.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .sticky-cta a {
@@ -408,25 +416,36 @@
       background: var(--gold);
       margin: 1.25rem 0;
     }
+    /* ── ANIMATIONS ───────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
 
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-bg" role="img" aria-label="Westminster QuickStart Hero Image"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <span class="eyebrow">Westminster QuickStart · SW1 · W1 · NW1</span>
       <h1>Westminster QuickStart<br><em>Mobile Battery & Diagnostic Concierge</em></h1>
-      <p class="hero-sub">Professional jumpstarts and precision electrical diagnostics for high-performance vehicles. Fast response across Westminster, Mayfair, and Belgravia.</p>
+      <p class="hero-sub">Professional jumpstarts and precision electrical diagnostics for high-performance vehicles. Arriving in minutes via eco-friendly bikes to bypass Westminster traffic.</p>
       <a href="tel:07917905898" class="hero-cta">
         📞 Request Emergency Assistance — £70
       </a>
       <div class="hero-badges">
+        <span class="badge">🌿 Eco-Friendly Bike Response</span>
+        <span class="badge">🛡️ Fully Insured</span>
         <span class="badge">30-Min Response</span>
-        <span class="badge">Luxury Electronics Safe</span>
-        <span class="badge">ANCEL Certified Diagnostics</span>
         <span class="badge">Digital Health Certificate</span>
       </div>
     </div>
@@ -440,32 +459,32 @@
       <div class="gold-line"></div>
       <p class="section-intro">A single flat-rate package covers everything your vehicle needs — no upselling, no hidden extras.</p>
       <div class="services-grid">
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">⚡</div>
           <h3>Professional Jumpstart</h3>
           <p>Safe power delivery using Ring Ultraboost technology — engineered for modern luxury electronics and sensitive ECUs.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">🔬</div>
           <h3>Full Battery Diagnostic</h3>
           <p>ANCEL BA101 precision analysis of State of Health (SOH), State of Charge (SOC), and voltage readings.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">⚙️</div>
           <h3>Alternator & Cranking Test</h3>
           <p>Full charging and cranking system analysis to identify whether the alternator or starter motor needs attention.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">🔘</div>
           <h3>Tyre Pressure Optimisation</h3>
           <p>Professional inspection and adjustment to manufacturer specification while we're on-site.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">📄</div>
           <h3>Digital Health Certificate</h3>
           <p>A professional PDF report emailed to you instantly — suitable for insurance records and your mechanic.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card fade-up">
           <div class="service-icon">💳</div>
           <h3>Contactless Payment</h3>
           <p>We accept Card, Apple Pay, and Contactless on-site. No need for cash.</p>
@@ -480,7 +499,7 @@
       <div class="section-label">Transparent Pricing</div>
       <h2>One Flat Rate. Everything Included.</h2>
       <div class="gold-line"></div>
-      <div class="pricing-card">
+      <div class="pricing-card fade-up">
         <div class="price-main">
           <div class="price-amount">£70</div>
           <div class="price-label">Fixed price · all-inclusive</div>
@@ -531,21 +550,21 @@
         </div>
         <div>
           <div class="trust-grid">
-            <div class="trust-item">
+            <div class="trust-item fade-up">
               <h4>Ring Ultraboost</h4>
               <p>Professional-grade jump starter trusted by breakdown services across the UK.</p>
             </div>
-            <div class="trust-item">
+            <div class="trust-item fade-up">
               <h4>ANCEL BA101</h4>
               <p>Precision battery tester used by automotive technicians for accurate SOH/SOC readings.</p>
             </div>
-            <div class="trust-item">
-              <h4>Mobile & Ready</h4>
-              <p>Fully equipped and deployable within minutes from central Westminster.</p>
+            <div class="trust-item fade-up">
+              <h4>Zero-Emission Rapid Response</h4>
+              <p>We deploy via specialized eco-friendly bikes, cutting through Westminster gridlock to reach you in minutes.</p>
             </div>
-            <div class="trust-item">
-              <h4>Luxury Vehicle Safe</h4>
-              <p>Equipment and procedures calibrated for Rolls-Royce, Bentley, and AMG-class vehicles.</p>
+            <div class="trust-item fade-up">
+              <h4>Fully Comprehensive Insurance</h4>
+              <p>Operating with full commercial insurance coverage, giving you complete peace of mind with luxury vehicle electronics.</p>
             </div>
           </div>
         </div>
@@ -581,6 +600,39 @@
   <div class="sticky-cta">
     <a href="tel:07917905898">📞 Call Now — Emergency Assistance</a>
   </div>
+
+  <script>
+    // Fade Up Animation
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smart Sticky CTA
+    const stickyCta = document.querySelector('.sticky-cta');
+    const heroCta = document.querySelector('.hero-cta');
+    
+    if (stickyCta && heroCta) {
+      const stickyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          // Show sticky CTA only when the main hero CTA scrolls out of view above the screen
+          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+            stickyCta.classList.add('visible');
+          } else {
+            stickyCta.classList.remove('visible');
+          }
+        });
+      }, { rootMargin: '0px', threshold: 0 });
+      stickyObserver.observe(heroCta);
+    }
+  </script>
 
 </body>
 </html>
